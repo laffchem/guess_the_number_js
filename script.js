@@ -1,7 +1,7 @@
 'use strict';
 // Generate the number
 const genNumber = () => {
-  return Math.floor(Math.random() * 20 + 1);
+  return Math.trunc(Math.random() * 20 + 1);
 };
 // Assign number to variable
 let secretNumber = genNumber();
