@@ -9,30 +9,47 @@ console.log(secretNumber);
 
 let scoreCount = 20;
 
+const displayMessage = message => {
+  return (document.querySelector('.message').textContent = message);
+};
+
+const changeBackground = color => {
+  return (document.body.style.backgroundColor = color);
+};
+// Restart the game
+const restartGame = () => {
+  return (
+    changeBackground('#222'),
+    displayMessage('Start guessing...'),
+    (document.querySelector('.guess').value = ''),
+    (document.querySelector('.score').textContent = 20),
+    (scoreCount = 20)
+  );
+};
 // Game logic for the check button.
 
 document.querySelector('.check').addEventListener('click', () => {
   const guess = Number(document.querySelector('.guess').value);
 
   if (!guess) {
-    document.querySelector('.message').textContent = 'No number!';
+    displayMessage('No number!');
   } else if (scoreCount === 1 && guess != secretNumber) {
-    document.body.style.backgroundColor = '#f03e3e';
+    changeBackground('#f03e3e');
     scoreCount = 0;
     document.querySelector('.score').textContent = '0';
-    document.querySelector('.message').textContent = 'You Lose! Try again!';
+    displayMessage('You Lose! Try again!');
   } else if (guess === secretNumber && scoreCount > 0) {
-    document.querySelector('.message').textContent = 'You Win!';
-    document.body.style.backgroundColor = '#60b347';
+    displayMessage('You Win!');
+    changeBackground('#60b347');
     document.querySelector('.highscore').textContent =
       document.querySelector('.score').textContent;
   } else if (guess < secretNumber && scoreCount > 0) {
     scoreCount--;
-    document.querySelector('.message').textContent = 'Too low!';
+    displayMessage('Too low!');
     document.querySelector('.score').textContent = String(scoreCount);
   } else if (guess > secretNumber && scoreCount > 0) {
     scoreCount--;
-    document.querySelector('.message').textContent = 'Too high!';
+    displayMessage('Too high!');
     document.querySelector('.score').textContent = String(scoreCount);
   }
 });
@@ -45,12 +62,7 @@ document.querySelector('.again').addEventListener('click', () => {
   if (scoreCount > highScore) {
     highScore = scoreCount;
   }
-  document.body.style.backgroundColor = '#222';
-  document.querySelector('.message').textContent = 'Start guessing...';
-  document.querySelector('.guess').value = '';
-
-  document.querySelector('.score').textContent = 20;
-  scoreCount = 20;
+  restartGame();
   secretNumber = genNumber();
   return console.log(secretNumber), scoreCount;
 });
